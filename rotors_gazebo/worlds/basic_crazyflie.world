@@ -38,9 +38,9 @@
           <contact_surface_layer>0.001</contact_surface_layer>
         </constraints>
       </ode>
-      <max_step_size>0.001</max_step_size>
-      <real_time_factor>1</real_time_factor>
-      <real_time_update_rate>1000</real_time_update_rate>
+      <max_step_size>0.01</max_step_size>
+      <real_time_factor>0</real_time_factor>
+      <real_time_update_rate>100</real_time_update_rate>
       <magnetic_field>6.0e-06 2.3e-05 -4.2e-05</magnetic_field>
       <gravity>0 0 -9.8</gravity>
     </physics>

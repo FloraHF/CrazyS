@@ -22,6 +22,7 @@ catkin_package(
     roll_pitch_yawrate_thrust_controller sensfusion6 crazyflie_complementary_filter
     mellinger_controller internal_model_controller 
     roll_pitch_yawrate_thrust_controller_crazyflie
+    heading_altitude_controller
   CATKIN_DEPENDS geometry_msgs mav_msgs nav_msgs roscpp sensor_msgs
   DEPENDS Eigen
 )
@@ -31,6 +32,10 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ${Eigen_INCLUDE_DIRS}
+)
+
+add_library(heading_altitude_controller
+  src/library/heading_altitude_controller.cpp
 )
 
 add_library(lee_position_controller
@@ -68,6 +73,9 @@ add_library(mellinger_controller
 add_library(internal_model_controller
   src/library/internal_model_controller.cpp
 )
+
+target_link_libraries(heading_altitude_controller ${catkin_LIBRARIES})
+add_dependencies(heading_altitude_controller ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(lee_position_controller ${catkin_LIBRARIES})
 add_dependencies(lee_position_controller ${catkin_EXPORTED_TARGETS})
@@ -119,14 +127,20 @@ add_dependencies(roll_pitch_yawrate_thrust_crazyflie_node ${catkin_EXPORTED_TARG
 target_link_libraries(roll_pitch_yawrate_thrust_crazyflie_node
   roll_pitch_yawrate_thrust_controller_crazyflie ${catkin_LIBRARIES})
 
+add_executable(heading_altitude_controller_node 
+  src/nodes/heading_altitude_controller_node.cpp)
+add_dependencies(heading_altitude_controller_node ${catkin_EXPORTED_TARGETS})
+target_link_libraries(heading_altitude_controller_node
+  heading_altitude_controller ${catkin_LIBRARIES})
+
 install(TARGETS lee_position_controller position_controller crazyflie_onboard_controller
   roll_pitch_yawrate_thrust_controller mellinger_controller internal_model_controller
-  roll_pitch_yawrate_thrust_controller_crazyflie
+  roll_pitch_yawrate_thrust_controller_crazyflie heading_altitude_controller
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
 
 install(TARGETS lee_position_controller_node position_controller_node roll_pitch_yawrate_thrust_controller_node
-  roll_pitch_yawrate_thrust_crazyflie_node
+  roll_pitch_yawrate_thrust_crazyflie_node heading_altitude_controller_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

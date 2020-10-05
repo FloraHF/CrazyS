@@ -25,6 +25,8 @@
 #include "ConnectGazeboToRosTopic.pb.h"
 #include "ConnectRosToGazeboTopic.pb.h"
 
+// #include <iostream>
+
 namespace gazebo {
 
 GazeboMotorModel::~GazeboMotorModel() {
@@ -258,10 +260,15 @@ void GazeboMotorModel::UpdateForcesAndMoments() {
              "raising the rotor_velocity_slowdown_sim_ param.\n";
   }
   double real_motor_velocity = motor_rot_vel_ * rotor_velocity_slowdown_sim_;
+  // std::cout << "rotor_velocity_slowdown_sim: " << rotor_velocity_slowdown_sim_ << " ";
+  // std::cout << "motor_rot_vel: " << motor_rot_vel_ << " ";
+  // std::cout << "real_motor_velocity: " << real_motor_velocity << "\n";
   // Get the direction of the rotor rotation.
   int real_motor_velocity_sign = (real_motor_velocity > 0) - (real_motor_velocity < 0);
   //Assuming symmetric propellers (or rotors) for the force calculation.
   double force = turning_direction_ * real_motor_velocity_sign * real_motor_velocity * real_motor_velocity * motor_constant_;
+  // std::cout << "output force of rotor " << motor_number_ << ": " << force << "\n";
+  // std::cout << "output velocity of rotor " << motor_number_ << ": " << real_motor_velocity*10000 << "\n";
 
 // TODO(ff): remove this?
 // Code from sitl_gazebo version of GazeboMotorModel.
@@ -296,7 +303,9 @@ void GazeboMotorModel::UpdateForcesAndMoments() {
                            rotor_drag_coefficient_ *
                            body_velocity_perpendicular;
   // Apply air_drag to link.
-  link_->AddForce(air_drag);
+  // link_->AddForce(air_drag);
+  // std::cout << "air drag of rotor " << motor_number_ << ": [" << air_drag[0] << "," << air_drag[1] << "," << air_drag[2] << "]\n";
+  // std::cout << "body_velocity of rotor " << motor_number_ << ": [" << body_velocity_perpendicular[0] << "," << body_velocity_perpendicular[1] << "," << body_velocity_perpendicular[2] << "]\n";
   // Moments
   // Getting the parent link, such that the resulting torques can be applied to
   // it.
@@ -311,12 +320,18 @@ void GazeboMotorModel::UpdateForcesAndMoments() {
   ignition::math::Vector3d drag_torque_parent_frame =
       pose_difference.Rot().RotateVector(drag_torque);
   parent_links.at(0)->AddRelativeTorque(drag_torque_parent_frame);
+  // std::cout << "drag_torque of rotor " << motor_number_ << ": " << drag_torque_parent_frame[0] << "," << drag_torque_parent_frame[1] << "," << drag_torque_parent_frame[2] << "\n";
+  // p q r command: (0.1, 0, 0), drag_torque_parent_frame[2] none zero
+
 
   ignition::math::Vector3d rolling_moment;
   // - \omega * \mu_1 * V_A^{\perp}
   rolling_moment = -std::abs(real_motor_velocity) *
                    rolling_moment_coefficient_ * body_velocity_perpendicular;
-  parent_links.at(0)->AddTorque(rolling_moment);
+  // parent_links.at(0)->AddTorque(rolling_moment);
+  // std::cout << "rolling_moment of rotor " << motor_number_ << ": " << rolling_moment[0] << "," << rolling_moment[1] << "," << rolling_moment[2] << "\n";
+  //
+
   // Apply the filter on the motor's velocity.
   double ref_motor_rot_vel;
   ref_motor_rot_vel =
