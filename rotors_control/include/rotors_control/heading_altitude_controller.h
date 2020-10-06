@@ -34,7 +34,7 @@ namespace rotors_control {
             ~HeadingAltitudeController();
 
             void SetPlayerID(const std::string& id);
-            void SetResID(const std::string& id);
+            void SetResID(const std::string& res_id);
 
             void CalculateRotorVelocities(Eigen::Vector4d* rotor_velocities);
 

@@ -49,7 +49,7 @@ void HeadingAltitudeControllerNode::InitializeParams() {
      ROS_ERROR("Failed to get param 'playerID'");
 
   if (pnh.getParam("resID", res_id_)){
-    ROS_INFO("Got param 'player ID': %s", res_id_.c_str());
+    ROS_INFO("Got param 'res ID': %s", res_id_.c_str());
     heading_altitude_controller_.SetResID(res_id_);
   }
   else

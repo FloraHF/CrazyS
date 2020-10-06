@@ -96,8 +96,8 @@ void HeadingAltitudeController::SetPlayerID(const std::string& id){
   id_ = id;
 }
 
-void HeadingAltitudeController::SetResID(const std::string& id){
-  res_id_ = id;
+void HeadingAltitudeController::SetResID(const std::string& res_id){
+  res_id_ = res_id;
 }
 
 // Reading parameters come frame launch file
