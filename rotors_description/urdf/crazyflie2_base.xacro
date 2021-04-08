@@ -43,6 +43,11 @@
     <xacro:crazyflie2_imuIdeal namespace="${namespace}" parent_link="${namespace}/base_link" />
   </xacro:if>
 
+  <!-- Mount the aideck camera -->
+  <xacro:if value="$(arg enable_aideck_camera)">
+    <xacro:crazyflie2_aideckCamera namespace="${namespace}" parent_link="${namespace}/base_link" />
+  </xacro:if>
+
   <!-- Mount a generic odometry sensor. -->
   <xacro:crazyflie2_odometry namespace="${namespace}" parent_link="${namespace}/base_link"  />
 

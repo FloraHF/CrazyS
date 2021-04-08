@@ -957,6 +957,31 @@
    </xacro:imu_plugin_macro>
   </xacro:macro>
 
+  <!-- the ai deck camera, parameters to be justified, Flora Apr 7, 2021 -->
+  <xacro:property name="camera_length" value="0.002" />
+  <xacro:property name="camera_radius" value="0.002" />
+  <xacro:property name="cf_body_width" value="0.045" />
+
+  <xacro:macro name="crazyflie2_aideckCamera" params="namespace parent_link">
+  <xacro:camera_macro
+    namespace="${namespace}"
+    parent_link="${parent_link}"
+    camera_suffix=""
+    frame_rate="25"
+    horizontal_fov="1.3962634"
+    image_width="752"
+    image_height="480"
+    image_format="L8"
+    min_distance="0.02"
+    max_distance="10"
+    noise_mean="0.0"
+    noise_stddev="0.01"
+    enable_visual="true">
+    <cylinder length="${camera_length}" radius="${camera_radius}" />
+    <origin xyz="${cf_body_width*0.35} 0 0.02" rpy="0 0 0"/>
+    </xacro:camera_macro>
+  </xacro:macro>
+
   <!-- VI-Sensor Macro Without Visual Part -->
   <xacro:macro name="vi_sensor_macro_without_visual" params="namespace parent_link enable_cameras enable_depth enable_ground_truth *origin">
     <!-- Vi Sensor Link -->

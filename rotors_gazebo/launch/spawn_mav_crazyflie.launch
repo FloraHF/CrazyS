@@ -16,6 +16,7 @@
   <arg name="enable_mavlink_interface" default="false"/>
   <arg name="enable_mellinger_controller" default="false"/>
   <arg name="enable_internal_model_controller" default="false"/>
+  <arg name="enable_aideck_camera" default="false"/>
   <arg name="enable_vi_sensor" default="false"/>
 
   <!-- send the robot XML to param server -->
@@ -24,6 +25,7 @@
     enable_logging:=$(arg enable_logging)
     enable_mellinger_controller:=$(arg enable_mellinger_controller)
     enable_internal_model_controller:=$(arg enable_internal_model_controller)
+    enable_aideck_camera:=$(arg enable_aideck_camera)
     enable_ground_truth:=$(arg enable_ground_truth)
     enable_state_estimator:=$(arg enable_state_estimator)
     enable_mavlink_interface:=$(arg enable_mavlink_interface)
